@@ -5,7 +5,7 @@ class init:
     SECRET_KEY = secrets.token_hex(16)
     SESSION_LIFETIME = timedelta(hours=12)
     DB_CONFIG = {
-        'host': '192.168.2.18',
+        'host': 'localhost',
         'user': 'root',
         'password': 'root',
         'database': 'gxss',
