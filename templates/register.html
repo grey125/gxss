@@ -1,0 +1,63 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{{ title }}</title>
+<script>
+async function submitForm(event) {
+	event.preventDefault();
+	const form = event.target;
+	const formData = new FormData(form);
+	try {
+		const response = await fetch('/auth/register', {
+			method: 'POST',
+			body: formData,
+		});
+
+		const result = await response.json();
+
+
+		alert(result.message);
+
+
+		if (result.success) {
+			form.reset();
+			window.location.href = '/login';
+		}
+	} catch (error) {
+		console.error('Error:', error);
+	}
+}
+</script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/body.css') }}"/>
+</head>
+<body>
+
+<div class="container">
+	<section id="content">
+		<form onsubmit="submitForm(event)">
+			<h1>{{ message }}</h1>
+			<div>
+				<input type="text" placeholder="用户名" name="user"  id="username" />
+			</div>
+			<div>
+				<input type="password" placeholder="密码" name="pwd"  id="password" />
+			</div>
+			<div>
+				<input type="text" placeholder="邀请码" name="auth_key"  id="key" />
+			</div>
+			 <div class="">
+				<span class="help-block u-errormessage" id="js-server-helpinfo">&nbsp;</span>			</div>
+			<div>
+				<!-- <input type="submit" value="Log in" /> -->
+				<input type="submit" name="sub" value="注册" class="btn btn-primary" id="js-btn-register"/>
+				<a href="/login">已有账号？点击登录</a>
+				<!-- <a href="#">Register</a> -->
+			</div>
+		</form><!-- form -->
+	<!-- button -->
+	</section><!-- content -->
+</div>
+<!-- container -->
+</body>
+</html>

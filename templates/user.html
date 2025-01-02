@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{ title }}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap-theme.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/css.css') }}">
+</head>
+<body>
+<div class="navbar navbar-fixed-top navbar-inverse">
+   <div class="container">
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/home">主页</a></li>
+		  <li class="active"><a href="/project">项目配置</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right ng-scope" ng-controller="user_ctrl" id="header_me">
+        <li>
+        <a href="#" wt-tracker="Header|Menu|Goto Apply" style="font-weight: bold; color: white;">账号 : {{ username }}</a>
+        </li>
+
+
+                <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></li>
+                <li>
+                    <a href="/user" wt-tracker="Header|Menu|Goto Apply">个人设置</a>
+                </li>
+                <li>
+                    <a href="/auth/logout" wt-tracker="Header|Menu|Goto Apply">退出登陆</a>
+                </li>
+            </ul>
+			        </div><!--/.nav-collapse -->
+      <iframe  style="display: none;"></iframe></div>
+    </div><div class="container">
+    <div class="col-sm-3">
+	<div class="panel panel-default">
+		<div class="panel-heading">我的项目<a style="font-size:16px;float:right;" href="/project/create">创建项目</a>
+		</div>
+			<div class="panel-body">
+
+                {% for datas in data_js %}
+                    <ul class="nav nav-stacked">
+                <li><a href="/home?id={{ datas.id }}">{{ datas.name }}</a></li>
+                         </ul>
+                {% endfor %}
+
+            </div>
+	</div>
+    </div>
+
+<div class="col-sm-9">
+<div class="panel panel-default">
+    	<div class="panel-heading">个人设置
+    	     	</div>
+<form style="padding: 10px 15px;" id="formSeting" action="#" method="post">
+<div style="padding:5px 10px">
+邮&nbsp;&nbsp;&nbsp;&nbsp;箱： <input id="email" name="email" type="text"  style="width:200px" maxlength="30" value="{{ email }}" /> &nbsp;&nbsp;发送邮件提醒：<input name='emsg' type='checkbox' class='checon'>
+<br><br>
+账&nbsp;&nbsp;&nbsp;&nbsp;号： <input id="username" name="username" type="text"  style="width:200px" maxlength="20" value="{{ username }}" /><br><br>
+旧密码： <input id="pwd" name="pwd" type="password"  style="width:200px" maxlength="20" value="" /><br><br>
+新密码： <input id="newpwd" name="newpwd" type="password"  style="width:200px" maxlength="20" value="" /><br><br>
+</div>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="btn btn-success" id="btnSeting" type="submit" value="提交" /><br><br>
+</form>
+
+</div>
+
+</body>
+</html>

