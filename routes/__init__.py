@@ -19,6 +19,10 @@ def register_routes(app):
     title = config.init.title
 
     @app.route('/')
+    def index():
+        if 'user' not in session or 'pwd' not in session:
+            return redirect(url_for('login'))
+        return redirect(url_for('home.home'))
     @app.route('/login')
     def login():
         return render_template('login.html', title=title, message=title)
