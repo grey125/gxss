@@ -13,3 +13,6 @@ python3 gxss.py --start 80 ｜ 启动服务，指定端口
 
 python3 gxss.py --keygen ｜ 生成邀请码，默认生成一个  
 python3 gxss.py --keygen 2 ｜ 生成邀请码，指定数量  
+
+## 更新
+2025-02-20 提交项目
